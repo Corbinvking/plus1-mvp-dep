@@ -15,8 +15,11 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   compress: true,
+  basePath: '/plus1-mvp-dep2',
+  assetPrefix: '/plus1-mvp-dep2',
   images: {
     unoptimized: true,
+    path: '/plus1-mvp-dep2/_next/image'
   },
   experimental: {
     serverActions: true,

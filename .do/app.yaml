@@ -14,7 +14,7 @@ services:
   run_command: npm start
   source_dir: /
   routes:
-  - path: /
+  - path: /plus1-mvp-dep2
   build_cache:
     enabled: true
     paths:
@@ -26,17 +26,17 @@ ingress:
       name: plus1-mvp-dep2
     match:
       path:
-        prefix: /
+        prefix: /plus1-mvp-dep2
   - component:
       name: plus1-mvp-dep2
     match:
       path:
-        prefix: /_next
+        prefix: /plus1-mvp-dep2/_next
   - component:
       name: plus1-mvp-dep2
     match:
       path:
-        prefix: /static
+        prefix: /plus1-mvp-dep2/static
 features:
 - buildpack-stack=ubuntu-22
 envs:
@@ -45,7 +45,7 @@ envs:
   value: production
 - key: NEXT_PUBLIC_BASE_PATH
   scope: RUN_AND_BUILD_TIME
-  value: ""
+  value: /plus1-mvp-dep2
 - key: NEXT_PUBLIC_SUPABASE_URL
   scope: RUN_AND_BUILD_TIME
   type: SECRET
