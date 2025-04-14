@@ -15,6 +15,11 @@ services:
   source_dir: /
   routes:
   - path: /
+  build_cache:
+    enabled: true
+    paths:
+      - node_modules
+      - .next/cache
 ingress:
   rules:
   - component:
@@ -27,9 +32,20 @@ ingress:
     match:
       path:
         prefix: /_next
+  - component:
+      name: plus1-mvp-dep2
+    match:
+      path:
+        prefix: /static
 features:
 - buildpack-stack=ubuntu-22
 envs:
+- key: NODE_ENV
+  scope: RUN_AND_BUILD_TIME
+  value: production
+- key: NEXT_PUBLIC_BASE_PATH
+  scope: RUN_AND_BUILD_TIME
+  value: ""
 - key: NEXT_PUBLIC_SUPABASE_URL
   scope: RUN_AND_BUILD_TIME
   type: SECRET

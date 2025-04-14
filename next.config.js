@@ -10,6 +10,17 @@ const nextConfig = {
     // your project has TypeScript errors.
     ignoreBuildErrors: true,
   },
+  output: 'standalone',
+  poweredByHeader: false,
+  reactStrictMode: true,
+  swcMinify: true,
+  compress: true,
+  images: {
+    unoptimized: true,
+  },
+  experimental: {
+    serverActions: true,
+  },
 }
 
 module.exports = nextConfig 
