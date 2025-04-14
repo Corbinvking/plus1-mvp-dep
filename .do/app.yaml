@@ -7,10 +7,10 @@ services:
     deploy_on_push: true
     repo: Corbinvking/plus1-mvp-dep
   http_port: 3000
-  instance_count: 2
+  instance_count: 1
   instance_size_slug: apps-s-1vcpu-1gb
   name: plus1-mvp-dep2
-  run_command: npm run start
+  run_command: npm start
   source_dir: /
 ingress:
   rules:
