@@ -14,7 +14,8 @@ services:
     npm ci
     npm run build
     cp -r public .next/standalone/
-    cp -r .next/static .next/standalone/.next/
+    cp -r .next/static .next/standalone/.next/static
+    cp -r public/* .next/standalone/public/
   run_command: cd .next/standalone && node server.js
   source_dir: /
   routes:

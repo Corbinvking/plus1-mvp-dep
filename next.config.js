@@ -31,13 +31,14 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
   },
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/_next' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '' : '',
+  basePath: '',
   webpack: (config, { dev, isServer }) => {
     // Ensure static assets are copied to the standalone output
     if (!dev && isServer) {
-      config.output.publicPath = '/_next/';
+      config.output.publicPath = '/';
     }
-    return config
+    return config;
   },
 }
 
