@@ -1,29 +1,32 @@
-name: plus1-mvp
+name: plusone-app
+region: nyc
 services:
-  - name: web
-    git:
-      branch: main
-      repo_clone_url: ${_REPO_URL}
-    build_command: next build --no-lint
-    run_command: npm start
-    envs:
-      - key: NODE_ENV
-        value: production
-      - key: NEXT_PUBLIC_SUPABASE_URL
-        value: ${_SUPABASE_URL}
-      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
-        value: ${_SUPABASE_ANON_KEY}
-      - key: NEXT_PUBLIC_SITE_URL
-        value: ${_SITE_URL}
-      - key: NEXT_PUBLIC_APP_URL
-        value: ${_APP_URL}
-    instance_count: 1
-    instance_size_slug: basic-xxs
-    http_port: 3000
-    routes:
-      - path: /
-    build_cache:
-      enabled: true
-      paths:
-        - node_modules
-        - .next/cache 
+- environment_slug: node-js
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: Corbinvking/plus1-mvp-dep
+  http_port: 3000
+  instance_count: 2
+  instance_size_slug: apps-s-1vcpu-1gb
+  name: plus1-mvp-dep2
+  run_command: npm run start
+  source_dir: /
+ingress:
+  rules:
+  - component:
+      name: plus1-mvp-dep2
+    match:
+      path:
+        prefix: /
+features:
+- buildpack-stack=ubuntu-22
+envs:
+- key: NEXT_PUBLIC_SUPABASE_URL
+  scope: RUN_AND_BUILD_TIME
+  type: SECRET
+  value: EV[1:u6UW66I8eytIRpqGYxCY65x4fMsszPwi:KS+taDPkpTRrz2YElctgb7IlUZQTmeyv9snKjcpNCQd/mRRqFoWgftdSyzUR6gGAe7McPtxOEMg=]
+- key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+  scope: RUN_AND_BUILD_TIME
+  type: SECRET
+  value: EV[1:LNLuxzADT0KPy/Tzw5WVHx7E9hGqGOoM:dKEsqNgibq8DjePV5EYxgphd45DhvkYB4nHOuwIi2mxuHIrL36TAj+v5Xm/t5BOL+7SHtSTHNUngrg8heL++r8FnxP+DXv5xtKf/W3PCyTLtGvJLoshYRFeY5tdau7axH1kaIuSe3WeJLRMXp6zCBMdwDw8mVfVMlG6xF4ipAICsu4MJQRahNhQKHChGCJe9ah2/y/YPQfgpTp9GO3sWD5D0G2sUMovWu5cFDAoVeaT4PI7Q1a3QK0/wLvRCpX76PXKullGmZxCsMo3Np8FHlP5XaoOfyizcpIPMoDxbKic=] 
