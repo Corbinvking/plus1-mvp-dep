@@ -10,8 +10,12 @@ services:
   instance_count: 1
   instance_size_slug: apps-s-1vcpu-1gb
   name: plus1-mvp-dep2
-  build_command: NODE_ENV=production npm run build
-  run_command: NODE_ENV=production npm start
+  build_command: |
+    npm ci
+    npm run build
+    cp -r public .next/standalone/
+    cp -r .next/static .next/standalone/.next/
+  run_command: cd .next/standalone && node server.js
   source_dir: /
   routes:
   - path: /
@@ -23,7 +27,7 @@ services:
       - public
   static_assets:
     handler: filesystem
-    path: public
+    path: .next/standalone/public
 ingress:
   rules:
   - component:

@@ -31,8 +31,12 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
   },
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/_next' : '',
   webpack: (config, { dev, isServer }) => {
-    // Add custom webpack config here if needed
+    // Ensure static assets are copied to the standalone output
+    if (!dev && isServer) {
+      config.output.publicPath = '/_next/';
+    }
     return config
   },
 }
