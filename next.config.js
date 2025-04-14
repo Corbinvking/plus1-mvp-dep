@@ -14,11 +14,8 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   compress: true,
-  basePath: process.env.NODE_ENV === 'production' ? '/plus1-mvp-dep2' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/plus1-mvp-dep2' : '',
   images: {
     unoptimized: true,
-    path: process.env.NODE_ENV === 'production' ? '/plus1-mvp-dep2/_next/image' : '/_next/image'
   },
   experimental: {
     serverComponentsExternalPackages: ['@prisma/client']
