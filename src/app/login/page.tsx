@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { signIn, signInWithGoogle, getSession } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
@@ -9,7 +9,7 @@ import { AuthError } from '@supabase/supabase-js'
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 
-export default function LoginPage() {
+function LoginContent() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -211,5 +211,20 @@ export default function LoginPage() {
         </motion.div>
       </div>
     </section>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="h-screen w-full flex items-center justify-center bg-gradient-to-b from-neutral-900 to-black">
+        <div className="text-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent mx-auto mb-4" />
+          <p className="text-neutral-400">Loading...</p>
+        </div>
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   )
 } 
