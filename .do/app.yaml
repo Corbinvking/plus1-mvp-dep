@@ -10,8 +10,8 @@ services:
   instance_count: 1
   instance_size_slug: apps-s-1vcpu-1gb
   name: plus1-mvp-dep2
-  build_command: npm run build
-  run_command: npm start
+  build_command: NODE_ENV=production npm run build
+  run_command: NODE_ENV=production npm start
   source_dir: /
   routes:
   - path: /
@@ -20,6 +20,10 @@ services:
     paths:
       - node_modules
       - .next/cache
+      - public
+  static_assets:
+    handler: filesystem
+    path: public
 ingress:
   rules:
   - component:
@@ -37,6 +41,11 @@ ingress:
     match:
       path:
         prefix: /static
+  - component:
+      name: plus1-mvp-dep2
+    match:
+      path:
+        prefix: /public
 features:
 - buildpack-stack=ubuntu-22
 envs:

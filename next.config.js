@@ -14,12 +14,28 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   compress: true,
+  distDir: '.next',
+  generateEtags: true,
   images: {
     unoptimized: true,
+    domains: ['plusone-app-t7ezx.ondigitalocean.app'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'plusone-app-t7ezx.ondigitalocean.app',
+      },
+    ],
   },
   experimental: {
-    serverComponentsExternalPackages: ['@prisma/client']
-  }
+    optimizeCss: true,
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
+  webpack: (config, { dev, isServer }) => {
+    // Add custom webpack config here if needed
+    return config
+  },
 }
 
 module.exports = nextConfig 
