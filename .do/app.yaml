@@ -4,7 +4,7 @@ services:
     git:
       branch: main
       repo_clone_url: ${_REPO_URL}
-    build_command: DISABLE_ESLINT_PLUGIN=true npm run build
+    build_command: next build --no-lint
     run_command: npm start
     envs:
       - key: NODE_ENV
