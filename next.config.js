@@ -13,17 +13,16 @@ const nextConfig = {
   output: 'standalone',
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
   compress: true,
-  basePath: '/plus1-mvp-dep2',
-  assetPrefix: '/plus1-mvp-dep2',
+  basePath: process.env.NODE_ENV === 'production' ? '/plus1-mvp-dep2' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/plus1-mvp-dep2' : '',
   images: {
     unoptimized: true,
-    path: '/plus1-mvp-dep2/_next/image'
+    path: process.env.NODE_ENV === 'production' ? '/plus1-mvp-dep2/_next/image' : '/_next/image'
   },
   experimental: {
-    serverActions: true,
-  },
+    serverComponentsExternalPackages: ['@prisma/client']
+  }
 }
 
 module.exports = nextConfig 
