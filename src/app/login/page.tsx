@@ -6,31 +6,26 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { Database } from '@/types/database.types';
-import { useToast } from '@/components/ui/use-toast';
 
 function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClientComponentClient<Database>();
-  const { toast } = useToast();
   const [isClient, setIsClient] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   useEffect(() => {
-    const error = searchParams.get('error');
-    const error_description = searchParams.get('error_description');
+    const errorParam = searchParams.get('error');
+    const errorDescription = searchParams.get('error_description');
 
-    if (error) {
-      toast({
-        variant: 'destructive',
-        title: error,
-        description: error_description,
-      });
+    if (errorParam) {
+      setError(`${errorParam}: ${errorDescription}`);
     }
-  }, [searchParams, toast]);
+  }, [searchParams]);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -56,6 +51,11 @@ function LoginContent() {
   return (
     <div className="h-screen w-full flex items-center justify-center bg-gradient-to-b from-neutral-900 to-black">
       <div className="w-full max-w-[400px] mx-auto p-8">
+        {error && (
+          <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-sm">
+            {error}
+          </div>
+        )}
         <Auth
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
