@@ -11,18 +11,13 @@ services:
     build_command: |
       npm run build
       mkdir -p .next/standalone/.next
-      cp -r .next/static .next/standalone/.next/
-      cp -r public .next/standalone/
-      cp -r .next/static .next/standalone/_next/
-      cp -r .next/server .next/standalone/.next/
+      cp -r .next/static .next/standalone/.next/static
+      cp -r public/* .next/standalone/public/
+      cp -r .next/static/* .next/standalone/_next/static/
+      cp -r .next/server .next/standalone/.next/server
       cp package.json .next/standalone/
     run_command: cd .next/standalone && NODE_ENV=production node server.js
     source_dir: /
-    routes:
-      - path: /
-        preserve_path_prefix: true
-      - path: /_next
-        preserve_path_prefix: true
     envs:
       - key: NEXT_PUBLIC_SUPABASE_URL
         scope: RUN_AND_BUILD_TIME
@@ -43,21 +38,25 @@ ingress:
       match:
         path:
           prefix: /
+      preserve_path_prefix: true
     - component:
         name: web
       match:
         path:
           prefix: /_next
+      preserve_path_prefix: true
     - component:
         name: web
       match:
         path:
           prefix: /static
+      preserve_path_prefix: true
     - component:
         name: web
       match:
         path:
           prefix: /public
+      preserve_path_prefix: true
 features:
   - buildpack-stack=ubuntu-22
 envs:

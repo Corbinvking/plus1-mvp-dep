@@ -17,7 +17,7 @@ const nextConfig = {
   distDir: '.next',
   generateEtags: true,
   images: {
-    unoptimized: false,
+    unoptimized: true,
     domains: [
       'plusone-app-t7ezx.ondigitalocean.app',
       'images.unsplash.com'
@@ -32,6 +32,9 @@ const nextConfig = {
         hostname: 'images.unsplash.com',
       }
     ],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ['image/webp'],
   },
   experimental: {
     serverActions: {
@@ -39,16 +42,13 @@ const nextConfig = {
     },
   },
   // Configure static asset handling
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/_next' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? undefined : '',
   basePath: '',
   // Ensure proper static file serving
   outputFileTracing: true,
-  // Configure server to properly serve static files
-  webpack: (config, { dev, isServer }) => {
-    if (!dev && !isServer) {
-      config.output.publicPath = '/_next/';
-    }
-    return config
+  // Remove custom webpack config to use Next.js defaults
+  webpack: (config) => {
+    return config;
   },
   // Add dynamic route handling
   async rewrites() {
