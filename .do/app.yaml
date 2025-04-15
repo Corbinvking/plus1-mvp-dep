@@ -10,21 +10,18 @@ services:
     instance_size_slug: basic-xxs
     build_command: |
       npm run build
-      # Copy standalone output
-      cp -r .next/standalone/* ./
-      cp -r .next/static ./.next/static
-      cp -r public ./public
-      # Ensure .next directory exists and copy static files
-      mkdir -p .next/static
-      cp -r .next/static/* .next/static/
-      # Copy additional necessary files
-      cp next.config.js ./
-      cp package.json ./
-      # Set proper permissions
-      chmod -R 755 .next/static
-      chmod -R 755 public
+      # Create clean deployment directory
+      mkdir -p /workspace/deploy
+      # Copy files exactly as in Docker
+      cp -r .next/standalone/* /workspace/deploy/
+      cp -r .next/static /workspace/deploy/.next/
+      cp -r public /workspace/deploy/
+      cp next.config.js /workspace/deploy/
+      cp package.json /workspace/deploy/
+      # Move to deployment directory
+      cd /workspace/deploy
     run_command: NODE_ENV=production node server.js
-    source_dir: /
+    source_dir: /workspace/deploy
     envs:
       - key: NEXT_PUBLIC_SUPABASE_URL
         scope: RUN_AND_BUILD_TIME
