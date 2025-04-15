@@ -13,8 +13,8 @@ services:
   build_command: |
     npm ci
     npm run build
-    cp -r public .next/standalone/
-    cp -r .next/static .next/standalone/.next/static
+    mkdir -p .next/standalone/_next
+    cp -r .next/static .next/standalone/_next/
     cp -r public/* .next/standalone/public/
   run_command: cd .next/standalone && node server.js
   source_dir: /
@@ -28,7 +28,7 @@ services:
       - public
   static_assets:
     handler: filesystem
-    path: .next/standalone/public
+    path: .next/standalone
 ingress:
   rules:
   - component:
@@ -41,16 +41,19 @@ ingress:
     match:
       path:
         prefix: /_next
+    rewrite: /_next
   - component:
       name: plus1-mvp-dep2
     match:
       path:
         prefix: /static
+    rewrite: /static
   - component:
       name: plus1-mvp-dep2
     match:
       path:
         prefix: /public
+    rewrite: /public
 features:
 - buildpack-stack=ubuntu-22
 envs:
