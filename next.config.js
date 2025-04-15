@@ -38,13 +38,17 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
   },
-  assetPrefix: process.env.NODE_ENV === 'production' ? '' : '',
+  // Configure static asset handling
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/_next' : '',
   basePath: '',
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.output.publicPath = '/';
+  // Ensure proper static file serving
+  outputFileTracing: true,
+  // Configure server to properly serve static files
+  webpack: (config, { dev, isServer }) => {
+    if (!dev && !isServer) {
+      config.output.publicPath = '/_next/';
     }
-    return config;
+    return config
   },
   // Add dynamic route handling
   async rewrites() {
@@ -52,7 +56,7 @@ const nextConfig = {
       {
         source: '/auth/logout',
         destination: '/api/auth/logout',
-      },
+      }
     ]
   },
 }
