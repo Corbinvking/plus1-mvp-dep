@@ -30,7 +30,13 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'ojhhzwqjngcjpnzwgefn.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/**',
+      },
     ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -42,8 +48,8 @@ const nextConfig = {
     },
   },
   // Asset handling configuration
-  assetPrefix: undefined,
-  basePath: '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/plus1-mvp-dep2' : '',
+  basePath: process.env.NODE_ENV === 'production' ? '/plus1-mvp-dep2' : '',
   // Ensure proper static file serving
   outputFileTracing: true,
   // Remove custom webpack config to use Next.js defaults

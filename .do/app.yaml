@@ -43,25 +43,25 @@ ingress:
         name: web
       match:
         path:
-          prefix: /
+          prefix: /plus1-mvp-dep2
       preserve_path_prefix: true
     - component:
         name: web
       match:
         path:
-          prefix: /_next
+          prefix: /plus1-mvp-dep2/_next
       preserve_path_prefix: true
     - component:
         name: web
       match:
         path:
-          prefix: /static
+          prefix: /plus1-mvp-dep2/static
       preserve_path_prefix: true
     - component:
         name: web
       match:
         path:
-          prefix: /public
+          prefix: /plus1-mvp-dep2/public
       preserve_path_prefix: true
 features:
   - buildpack-stack=ubuntu-22
