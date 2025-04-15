@@ -10,11 +10,16 @@ services:
     instance_size_slug: basic-xxs
     build_command: |
       npm run build
-      mkdir -p standalone
-      cp -r .next/standalone/* standalone/
-      cp -r .next/static standalone/.next/static
-      cp -r public standalone/public
-    run_command: cd standalone && NODE_ENV=production node server.js
+      # Copy standalone output
+      cp -r .next/standalone/* ./
+      cp -r .next/static ./.next/static
+      cp -r public ./public
+      # Ensure .next directory exists
+      mkdir -p .next
+      # Copy additional necessary files
+      cp next.config.js ./
+      cp package.json ./
+    run_command: NODE_ENV=production node server.js
     source_dir: /
     envs:
       - key: NEXT_PUBLIC_SUPABASE_URL
