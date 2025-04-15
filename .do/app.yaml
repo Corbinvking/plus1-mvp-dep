@@ -14,11 +14,15 @@ services:
       cp -r .next/standalone/* ./
       cp -r .next/static ./.next/static
       cp -r public ./public
-      # Ensure .next directory exists
-      mkdir -p .next
+      # Ensure .next directory exists and copy static files
+      mkdir -p .next/static
+      cp -r .next/static/* .next/static/
       # Copy additional necessary files
       cp next.config.js ./
       cp package.json ./
+      # Set proper permissions
+      chmod -R 755 .next/static
+      chmod -R 755 public
     run_command: NODE_ENV=production node server.js
     source_dir: /
     envs:
@@ -50,6 +54,13 @@ services:
       timeout_seconds: 10
       success_threshold: 1
       failure_threshold: 3
+    routes:
+      - path: /_next/static
+        serve_static: true
+        dir: .next/static
+      - path: /public
+        serve_static: true
+        dir: public
 ingress:
   rules:
     - component:
@@ -66,6 +77,20 @@ ingress:
       preserve_path_prefix: true
 features:
   - buildpack-stack=ubuntu-22
+static_sites:
+  - name: next-static
+    environment_slug: html
+    github:
+      branch: main
+      deploy_on_push: true
+      repo: plus1-club/plus1-mvp-base
+    routes:
+      - path: /_next/static
+        serve_static: true
+        dir: .next/static
+      - path: /public
+        serve_static: true
+        dir: public
 envs:
   - key: NODE_ENV
     scope: RUN_AND_BUILD_TIME
