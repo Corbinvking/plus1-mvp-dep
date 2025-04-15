@@ -1,34 +1,29 @@
-name: plusone-app
+name: plus1-mvp
 region: nyc
 services:
-- environment_slug: node-js
-  github:
-    branch: main
-    deploy_on_push: true
-    repo: Corbinvking/plus1-mvp-dep
-  http_port: 3000
-  instance_count: 1
-  instance_size_slug: apps-s-1vcpu-1gb
-  name: plus1-mvp-dep2
-  build_command: |
-    npm ci
-    npm run build
-    mkdir -p .next/standalone/_next
-    cp -r .next/static .next/standalone/_next/
-    cp -r public/* .next/standalone/public/
-  run_command: cd .next/standalone && node server.js
-  source_dir: /
-  routes:
-  - path: /
-  build_cache:
-    enabled: true
-    paths:
-      - node_modules
-      - .next/cache
-      - public
-  static_assets:
-    handler: filesystem
-    path: .next/standalone
+  - name: web
+    git:
+      branch: main
+      repo_clone_url: https://github.com/plus1-club/plus1-mvp-base.git
+    http_port: 3000
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    build_command: npm run build && cp -r .next/static .next/standalone/.next/static && cp -r public .next/standalone/public && cp -r .next/static .next/standalone/_next/static
+    run_command: cd .next/standalone && node server.js
+    source_dir: /
+    routes:
+      - path: /_next
+        preserve_path_prefix: true
+    envs:
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        scope: RUN_AND_BUILD_TIME
+        value: ${NEXT_PUBLIC_SUPABASE_URL}
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        scope: RUN_AND_BUILD_TIME
+        value: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+    build_cache:
+      paths:
+        - node_modules
 ingress:
   rules:
   - component:

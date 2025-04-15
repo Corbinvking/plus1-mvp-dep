@@ -17,13 +17,20 @@ const nextConfig = {
   distDir: '.next',
   generateEtags: true,
   images: {
-    unoptimized: true,
-    domains: ['plusone-app-t7ezx.ondigitalocean.app'],
+    unoptimized: false,
+    domains: [
+      'plusone-app-t7ezx.ondigitalocean.app',
+      'images.unsplash.com'
+    ],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'plusone-app-t7ezx.ondigitalocean.app',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      }
     ],
   },
   experimental: {
@@ -33,12 +40,20 @@ const nextConfig = {
   },
   assetPrefix: process.env.NODE_ENV === 'production' ? '/_next' : '',
   basePath: '',
-  webpack: (config, { dev, isServer }) => {
-    if (!dev && isServer) {
-      // Copy all static files to the correct location
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
       config.output.publicPath = '/_next/';
     }
     return config;
+  },
+  // Add dynamic route handling
+  async rewrites() {
+    return [
+      {
+        source: '/auth/logout',
+        destination: '/api/auth/logout',
+      },
+    ]
   },
 }
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter as Geist } from "next/font/google";
+import { Source_Code_Pro as GeistMono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '@/providers/AuthProvider'
 import { ProgressProvider } from '@/providers/ProgressProvider'
@@ -9,7 +10,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
+const geistMono = GeistMono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
