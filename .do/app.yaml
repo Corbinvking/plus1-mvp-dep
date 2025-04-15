@@ -41,7 +41,15 @@ services:
         value: "0.0.0.0"
     build_cache:
       paths:
+        - .next/cache
         - node_modules
+    health_check:
+      http_path: /
+      initial_delay_seconds: 30
+      period_seconds: 30
+      timeout_seconds: 10
+      success_threshold: 1
+      failure_threshold: 3
 ingress:
   rules:
     - component:
@@ -49,6 +57,12 @@ ingress:
       match:
         path:
           prefix: /
+      preserve_path_prefix: true
+    - component:
+        name: web
+      match:
+        path:
+          prefix: /_next
       preserve_path_prefix: true
 features:
   - buildpack-stack=ubuntu-22
