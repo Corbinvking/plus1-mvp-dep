@@ -10,7 +10,7 @@ services:
     instance_size_slug: basic-xxs
     build_command: |
       npm run build
-      mkdir -p standalone/.next
+      mkdir -p standalone
       cp -r .next/standalone/* standalone/
       cp -r .next/static standalone/.next/static
       cp -r public standalone/public
@@ -43,25 +43,7 @@ ingress:
         name: web
       match:
         path:
-          prefix: /plus1-mvp-dep2
-      preserve_path_prefix: true
-    - component:
-        name: web
-      match:
-        path:
-          prefix: /plus1-mvp-dep2/_next
-      preserve_path_prefix: true
-    - component:
-        name: web
-      match:
-        path:
-          prefix: /plus1-mvp-dep2/static
-      preserve_path_prefix: true
-    - component:
-        name: web
-      match:
-        path:
-          prefix: /plus1-mvp-dep2/public
+          prefix: /
       preserve_path_prefix: true
 features:
   - buildpack-stack=ubuntu-22

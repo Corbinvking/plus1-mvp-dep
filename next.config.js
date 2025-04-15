@@ -48,12 +48,15 @@ const nextConfig = {
     },
   },
   // Asset handling configuration
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/plus1-mvp-dep2' : '',
   basePath: process.env.NODE_ENV === 'production' ? '/plus1-mvp-dep2' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/plus1-mvp-dep2' : '',
   // Ensure proper static file serving
   outputFileTracing: true,
   // Remove custom webpack config to use Next.js defaults
   webpack: (config) => {
+    if (process.env.NODE_ENV === 'production') {
+      config.output.publicPath = '/plus1-mvp-dep2/_next/';
+    }
     return config;
   },
   // Add dynamic route handling
