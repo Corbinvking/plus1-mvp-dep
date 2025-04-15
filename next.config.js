@@ -41,8 +41,8 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
   },
-  // Configure static asset handling
-  assetPrefix: process.env.NODE_ENV === 'production' ? undefined : '',
+  // Asset handling configuration
+  assetPrefix: undefined,
   basePath: '',
   // Ensure proper static file serving
   outputFileTracing: true,
