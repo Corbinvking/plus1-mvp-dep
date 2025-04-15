@@ -38,11 +38,11 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
   },
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/_next' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '' : '',
   basePath: '',
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      config.output.publicPath = '/_next/';
+      config.output.publicPath = '/';
     }
     return config;
   },
